@@ -1,0 +1,32 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+backend/venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Top-level datasets: keep locally, don't upload yet
+/data/
+
+# Preserve trained model artifacts for deployment
+!backend/data/
+!backend/data/processed/
+!backend/data/processed/*.joblib
