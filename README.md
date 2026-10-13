@@ -220,31 +220,122 @@ Visit `http://localhost:5500`
 - Deploy the backend publicly (currently local-only for the project demo)
 
 
-## 13. To run project 
-1. Start Ollama (needed only if you want AI explanations via /explain):
+ ## 13. How to Run the Project Locally
 
-powershell
-ollama serve
+Follow the steps below to set up and run the AI-Based Phishing Detection System on your local machine.
 
-(Often already running in the background on Windows — check with ollama list first; if it responds, it's running.)
+### Prerequisites
 
-2. Start the FastAPI backend — open a terminal:
+Ensure the following are installed:
 
-powershell
-cd "C:\Users\omprakash dayma\Downloads\phishing-detector\phishing-detector\backend"
-venv\Scripts\activate
+- Python 3.10 or a compatible version supported by the project dependencies
+- Git
+- A modern web browser
+- Ollama (optional, required only for locally hosted AI explanations)
+
+### Step 1: Clone the Repository
+
+Open a terminal and run:
+
+```powershell
+git clone https://github.com/madhavidayma21/AI-phishing-detection.git
+cd AI-phishing-detection
+```
+
+### Step 2: Set Up the Python Environment
+
+Navigate to the backend directory:
+
+```powershell
+cd backend
+python -m venv venv
+```
+
+Activate the virtual environment on Windows:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+If you are using Command Prompt instead of PowerShell, run:
+
+```bat
+venv\Scripts\activate.bat
+```
+
+Install the required dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
+
+### Step 3: Start the FastAPI Backend
+
+From the `backend` directory, run:
+
+```powershell
 uvicorn app.api.main:app --reload --port 8000
+```
 
-3. Choose your frontend (you have two — use either or both):
+The API will be available at:
 
-Option A — Web Dashboard (open a second terminal):
+- **API base URL:** http://localhost:8000
+- **Interactive API documentation:** http://localhost:8000/docs
+- **Health check:** http://localhost:8000/health
 
-powershell
-cd "C:\Users\omprakash dayma\Downloads\phishing-detector\phishing-detector\frontend"
+Keep this terminal running while using the application.
+
+### Step 4: Start the Web Dashboard
+
+Open a second terminal and navigate to the frontend directory from the repository root:
+
+```powershell
+cd frontend
 python -m http.server 5500
+```
 
-Then visit http://localhost:5500 in your browser.
+Open the following URL in your browser:
 
-visit : C:/Users/omprakash dayma/Downloads/phishing-detector/phishing-detector/frontend/index.html
+http://localhost:5500
 
-file:///C:/Users/omprakash%20dayma/Downloads/phishing-detector/phishing-detector/frontend/index.html
+The dashboard will use the locally running backend to analyze URLs, emails, and text, provided its API configuration points to `http://localhost:8000`.
+
+### Step 5: Enable AI-Powered Explanations (Optional)
+
+The basic phishing classification features can run without Ollama, provided the backend and model artifacts are configured correctly.
+
+To enable locally hosted AI explanations through the `/explain` endpoint:
+
+1. Install Ollama from https://ollama.com/.
+2. Download and configure a language model compatible with the project's explanation pipeline.
+3. Start the Ollama service if it is not already running:
+
+   ```powershell
+   ollama serve
+   ```
+
+4. Verify the installed models:
+
+   ```powershell
+   ollama list
+   ```
+
+Ollama must be running, and the model expected by the project's explanation configuration must be available. AI explanations may require additional setup beyond the core classifier.
+
+### Step 6: Access the Monitoring Dashboard
+
+With the frontend HTTP server running, open:
+
+http://localhost:5500/monitoring.html
+
+The monitoring page displays the project's evaluation and monitoring interface. Check the page's implementation to distinguish recorded evaluation results from live system metrics.
+
+### Troubleshooting
+
+- **Module not found:** Activate the virtual environment and install dependencies from `backend/requirements.txt`.
+- **Model file not found:** Verify that the required `.joblib` files are present in `backend/data/processed/`.
+- **Connection refused:** Ensure the FastAPI backend is running on port `8000`.
+- **AI explanation unavailable:** Check the Ollama service, installed model, and explanation configuration.
+- **Dashboard cannot reach the API:** Verify the frontend API base URL and ensure the backend is accessible at `http://localhost:8000`.
+
+**Note:** Commands above assume a Windows environment. On macOS or Linux, use the appropriate virtual-environment activation command. Local URLs work only on the computer running the services.
